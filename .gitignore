@@ -8,3 +8,4 @@ test/*.log
 retrieval/config/development.json
 retrieval/config/production.json
 *.db
+*.log
