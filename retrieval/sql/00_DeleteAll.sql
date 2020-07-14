@@ -1,0 +1,4 @@
+DROP PROCEDURE IF EXISTS ParkData.uspRideUpdate_Create;
+DROP TABLE IF EXISTS ParkData.RideUpdate;
+DROP TABLE IF EXISTS ParkData.Rides;
+DROP TABLE IF EXISTS ParkData.Parks;

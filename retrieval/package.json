@@ -1,0 +1,17 @@
+{
+  "name": "parkdata",
+  "version": "1.0.0",
+  "description": "Retrieves current wait time and park opening data for each Walt Disney World and Universal Studios Orlando park.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tyler Wise",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "themeparks": "^5.1.37",
+    "mysql": "^2.18.1",
+    "node-datetime": "2.1.2",
+    "config": "^3.3.1"
+  }
+}
