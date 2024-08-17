@@ -1,7 +1,7 @@
 // include the Themeparks library
 const Themeparks = require("themeparks");
 //include mysql
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 //configure the timeout because of Disney couchbase stuff I think
 const timeout = 4 * 60 * 1000;
