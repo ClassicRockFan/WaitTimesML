@@ -12,7 +12,7 @@ services:
     image: ghcr.io/classicrockfan/waittimesml/db:latest
     container_name: db
     restart: unless-stopped
-    expose:
+    ports:
       - "3306:3306"
     env_file:
       - stack.env
