@@ -1,10 +1,7 @@
 USE ParkData;
 
-DROP PROCEDURE IF EXISTS ParkData.uspRideUpdate_Create;
-
-
 DELIMITER //
-CREATE PROCEDURE ParkData.uspRideUpdate_Create (in RideName varchar(255), in ParkName varchar(255), in WaitTime int, in Status varchar(16), in IsActive boolean)
+CREATE PROCEDURE IF NOT EXISTS ParkData.uspRideUpdate_Create (in RideName varchar(255), in ParkName varchar(255), in WaitTime int, in Status varchar(16), in IsActive boolean)
 BEGIN
 	SET @RideId = -1;
 	SET @ParkId = -1; 
