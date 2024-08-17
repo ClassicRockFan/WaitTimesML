@@ -1,8 +1,6 @@
 USE ParkData;
 
-DROP TABLE IF EXISTS ParkData.RideUpdate ;
-
-CREATE TABLE ParkData.RideUpdate (
+CREATE TABLE IF NOT EXISTS ParkData.RideUpdate (
 	RideUpdateId INT auto_increment NOT NULL,
 	RideId INT NOT NULL,
 	WaitTime INT,
@@ -15,4 +13,4 @@ CREATE TABLE ParkData.RideUpdate (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
-CREATE INDEX RideUpdates_RideUpdateId_IDX USING BTREE ON ParkData.RideUpdate (RideUpdateId);
+CREATE INDEX IF NOT EXISTS RideUpdates_RideUpdateId_IDX USING BTREE ON ParkData.RideUpdate (RideUpdateId);
