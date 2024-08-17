@@ -24,9 +24,9 @@ const parks = [
 
 console.log("Starting service");
 var conn = mysql.createConnection({
-	host: process.env.databaseHost,
-	user: process.env.databaseUsername,
-	password: process.env.databasePassword,
+	host: process.env.DATABSE_HOST,
+	user: process.env.DATABASE_USERNAME,
+	password: process.env.DATABASE_PASSWORD,
 	database: 'ParkData'
 });
 
