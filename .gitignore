@@ -10,3 +10,4 @@ retrieval/config/production.json
 *.db
 *.log
 *.env
+!*.env.templ
