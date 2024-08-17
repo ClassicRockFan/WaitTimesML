@@ -2,9 +2,6 @@
 const Themeparks = require("themeparks");
 //include mysql
 const mysql = require("mysql");
-//include config
-// Set the environment variable NODE_ENV and you can replace the default config file values
-const config = require("config");
 
 //configure the timeout because of Disney couchbase stuff I think
 const timeout = 4 * 60 * 1000;
@@ -27,9 +24,9 @@ const parks = [
 
 console.log("Starting service");
 var conn = mysql.createConnection({
-	host: config.get("database.host"),
-	user: config.get("database.username"),
-	password: config.get("database.password"),
+	host: process.env.databaseHost,
+	user: process.env.databaseUsername,
+	password: process.env.databasePassword,
 	database: 'ParkData'
 });
 
