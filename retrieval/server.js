@@ -1,10 +1,7 @@
 // include the Themeparks library
 const Themeparks = require("themeparks");
 //include mysql
-const mysql = require("mysql");
-//include config
-// Set the environment variable NODE_ENV and you can replace the default config file values
-const config = require("config");
+const mysql = require("mysql2");
 
 //configure the timeout because of Disney couchbase stuff I think
 const timeout = 4 * 60 * 1000;
@@ -14,6 +11,10 @@ const timeout = 4 * 60 * 1000;
 // Themeparks.Settings.Cache = __dirname + "/themeparks.db";
 
 //setup the parks we want to use
+
+
+
+setTimeout(function () {
 const parks = [
 	new Themeparks.Parks.WaltDisneyWorldMagicKingdom(),
 	new Themeparks.Parks.WaltDisneyWorldEpcot(),
@@ -27,9 +28,9 @@ const parks = [
 
 console.log("Starting service");
 var conn = mysql.createConnection({
-	host: config.get("database.host"),
-	user: config.get("database.username"),
-	password: config.get("database.password"),
+	host: process.env.DATABASE_HOST,
+	user: process.env.DATABASE_USERNAME,
+	password: process.env.DATABASE_PASSWORD,
 	database: 'ParkData'
 });
 
@@ -59,6 +60,4 @@ conn.connect(function (err) {
 	});
 });
 
-setTimeout(function () {
-	process.exit(0);	
-}, timeout); 
+}, process.env.QUERY_INTERVAL*1000); 
