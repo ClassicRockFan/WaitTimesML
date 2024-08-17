@@ -25,12 +25,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Retrieval image
+      - name: Build and push retrieval image
         uses: docker/build-push-action@v4
         with:
           context: ./retrieval
           push: true
           tags: ghcr.io/classicrockfan/waittimesml/retriever:latest
+
+      - name: Build and push database image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./db
+          push: true
+          tags: ghcr.io/classicrockfan/waittimesml/db:latest
 
       - name: Image digest
         run: echo ${{ steps.build-and-push.outputs.digest }}
