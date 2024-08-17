@@ -1,0 +1,18 @@
+# Build the production image
+image:
+  docker build -t ghcr.io/classicrockfan/waittimesml/retriever:latest .
+
+# Run the production image
+run: image
+  docker run --rm -it ghcr.io/classicrockfan/waittimesml/retriever:latest
+
+# Clean up all the logs and node_modules
+clean:
+  -rm -r logs/
+  -rm -r node_modules/
+  -rm *.db
+  -rm *.log
+
+# Print this help message
+help:
+  just --list
