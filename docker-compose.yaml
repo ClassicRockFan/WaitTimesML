@@ -5,14 +5,17 @@ services:
     image: ghcr.io/classicrockfan/waittimesml/retriever:latest
     container_name: retriever
     restart: unless-stopped
-    # env_file:
-    # - stack.env
+    env_file:
+      - stack.env
 
   db:
     image: ghcr.io/classicrockfan/waittimesml/db:latest
     container_name: db
     restart: unless-stopped
-    #env_file:
+    expose:
+      - 3306
+    env_file:
+      - stack.env
     volumes:
       - waittime-db-data:/var/lib/mysql
 
