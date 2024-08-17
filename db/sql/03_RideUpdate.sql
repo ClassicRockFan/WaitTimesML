@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS ParkData.RideUpdate (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
-CREATE INDEX IF NOT EXISTS RideUpdates_RideUpdateId_IDX USING BTREE ON ParkData.RideUpdate (RideUpdateId);
+ALTER TABLE ParkData.RideUpdate ADD INDEX RideUpdates_RideUpdateId_IDX USING BTREE (RideUpdateId);
