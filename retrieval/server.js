@@ -3,18 +3,9 @@ const Themeparks = require("themeparks");
 //include mysql
 const mysql = require("mysql2");
 
-//configure the timeout because of Disney couchbase stuff I think
-const timeout = 4 * 60 * 1000;
+console.log("Starting service");
 
-// configure where SQLite DB sits
-// optional - will be created in node working directory if not configured
-// Themeparks.Settings.Cache = __dirname + "/themeparks.db";
-
-//setup the parks we want to use
-
-
-
-setTimeout(function () {
+console.log("Creating parks instances");
 const parks = [
 	new Themeparks.Parks.WaltDisneyWorldMagicKingdom(),
 	new Themeparks.Parks.WaltDisneyWorldEpcot(),
@@ -25,39 +16,51 @@ const parks = [
 	new Themeparks.Parks.SeaworldOrlando(),
 	new Themeparks.Parks.BuschGardensTampa()
 ];
+setInterval(retrieveTimes, process.env.QUERY_INTERVAL*1000); 
 
-console.log("Starting service");
-var conn = mysql.createConnection({
-	host: process.env.DATABASE_HOST,
-	user: process.env.DATABASE_USERNAME,
-	password: process.env.DATABASE_PASSWORD,
-	database: 'ParkData'
-});
+function retrieveTimes() {
+	var conn = build_db_conn();
+	conn.connect(function (err) {
+		if (err) throw err;	
+		console.log("connected to mysql");
+		console.log("Initiating retrieval");
+		parks.forEach((park) => {
+			return updatePark(park, conn);
+		});
+	});
+}
 
-conn.connect(function (err) {
-	if (err) throw err;
-	console.log("connected to mysql")
-	// Access wait times by Promise
-	console.log("starting data grab");
-	parks.forEach((park) => {
-		console.log(`Grabbbing data for ${park.Name}`)
-		park.GetWaitTimes().then((rideTimes) => {
-			rideTimes.forEach((ride) => {
-				var cmd = `CALL ParkData.uspRideUpdate_Create ("${ride.name.replace(/"/g, "")}", "${park.Name.replace(/"/g, "")}", ${ride.waitTime}, "${ride.status}", ${ride.active});`;
-				conn.query(cmd, function (err, result) {
-					if (err) throw err;
-					console.log(`${result.affectedRows} record inserted for ${cmd}`);
-					return true;
-				});
-				return true;
-			});
+function updatePark(park, conn) {
+	console.log(`Grabbbing data for ${park.Name}`);
+	park.GetWaitTimes().then((rideTimes) => {
+		return updateRide(rideTimes, park, conn);
+	}).catch((error) => {
+		console.error(error);
+		return false;
+	});
+	return true;
+}
+
+function updateRide(rideTimes, park, conn) {
+	rideTimes.forEach((ride) => {
+		var cmd = `CALL ParkData.uspRideUpdate_Create ("${ride.name.replace(/"/g, "")}", "${park.Name.replace(/"/g, "")}", ${ride.waitTime}, "${ride.status}", ${ride.active});`;
+		conn.query(cmd, function (err, result) {
+			if (err) throw err;
+			console.log(`${result.affectedRows} record inserted for ${cmd}`);
 			return true;
-		}).catch((error) => {
-			console.error(error);
-			return false;
 		});
 		return true;
 	});
-});
+	return true;
+}
 
-}, process.env.QUERY_INTERVAL*1000); 
+function build_db_conn() {
+	console.log("Connecting to host " + process.env.DATABASE_HOST + " with username " + process.env.DATABASE_USERNAME);
+	var conn = mysql.createConnection({
+		host: process.env.DATABASE_HOST,
+		user: process.env.DATABASE_USERNAME,
+		password: process.env.DATABASE_PASSWORD,
+		database: 'ParkData'
+	});
+	return conn;
+}
