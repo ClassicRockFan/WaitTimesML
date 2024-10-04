@@ -14,7 +14,9 @@ const parks = [
 	new Themeparks.Parks.UniversalStudiosFlorida(),
 	new Themeparks.Parks.UniversalIslandsOfAdventure(),
 	new Themeparks.Parks.SeaworldOrlando(),
-	new Themeparks.Parks.BuschGardensTampa()
+	new Themeparks.Parks.BuschGardensTampa(),
+	new Themeparks.Parks.DisneylandResortMagicKingdom(),
+	new Themeparks.Parks.DisneylandResortCaliforniaAdventure()
 ];
 setInterval(retrieveTimes, process.env.QUERY_INTERVAL*1000); 
 
